@@ -2,8 +2,21 @@
 title: 'Women''s Work 2022: Identifying Promising Occupations'
 author: "Kara Haberstock Tanoue"
 date: "2022-10-07"
-output: html_document
+output: 
+  html_document:
+    theme: united
+    highlight: tango
 ---
+
+```{r setup, echo=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+    root.dir = rprojroot::find_rstudio_root_file()
+)
+library(tidyverse)
+library(knitr)
+library(scales)
+library(kableExtra)
+```
 
 ### Purpose
 
@@ -28,12 +41,29 @@ To identify mid-skill, high-wage occupations, we used 3 different employment dat
 ### Promising Occupations in Arizona: Initial List
 
 ```{r}
-## This does not currently work-- check back on methods for relative paths in rmarkdown
-library(tidyverse)
-data <- read.csv("clean-data/promising_occupations21.csv")
-
+data <- read.csv("clean-data/az_promising_occupations21.csv")
 
 ```
 
 This initial filtering identified `r length(unique(data$OCC_CODE))` promising occupations
 
+```{r, echo=FALSE, warning=FALSE}
+data %>% 
+  select(OCC_TITLE, H_MEDIAN, percchange_2030, avg_annualopenings,
+         ED_REQ, EXP_REQ) %>% 
+  rename(Occupation = OCC_TITLE,
+         Med_Wage = H_MEDIAN,
+         Growth_2030 = percchange_2030,
+         Openings = avg_annualopenings,
+         Education = ED_REQ,
+         Experience = EXP_REQ
+         ) %>% 
+  mutate(Growth_2030 = scales::percent(Growth_2030),
+         Med_Wage = scales::dollar(Med_Wage)) %>% 
+  kable(booktabs = TRUE,
+        caption = "Initial Promising Occupations in Arizona, 2021", 
+        digits = 2,
+        ) %>% 
+  kable_styling(font_size = 12)
+
+```
