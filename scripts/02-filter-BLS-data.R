@@ -19,10 +19,10 @@ promocc21 <- az_occdata0521 %>%
   mutate(ED_REQ.FACTOR = factor(ED_REQ, levels = c("No formal educational credential",
                                                    "High school diploma or equivalent",
                                                    "Some college, no degree",
+                                                   "Postsecondary nondegree award",
                                                    "Associate's degree",
                                                    "Bachelor's degree",
                                                    "Master's degree",
-                                                   "Postsecondary nondegree award",
                                                    "Doctoral or professional degree" )),
          EXP_REQ.FACTOR = factor(EXP_REQ, levels = c("None",
                                                    "Less than 5 years",
@@ -33,7 +33,7 @@ promocc21 <- az_occdata0521 %>%
                                                         "Long-term on-the-job training",
                                                         "Apprenticeship",
                                                         "Internship/residency"))) %>% 
-  filter(as.integer(ED_REQ.FACTOR) <= 4 &
+  filter(as.integer(ED_REQ.FACTOR) <= 5 &
            as.integer(EXP_REQ.FACTOR) <= 2 &
            (as.integer(TRN_REQ.FACTOR) <= 3 | TRN_REQ == "Apprenticeship") &
            H_MEDIAN >= 20 &
