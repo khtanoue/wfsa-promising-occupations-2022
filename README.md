@@ -21,3 +21,4 @@ In 2019, the CRED Team, in partnership with the Women's Foundation, published a 
 -   `scripts`
     -   `01-extract-clean-BLS-data.R`: Script to process and clean BLS data and create merged occupation dataset
     -   `02-filter-BLS-data.R`: Script to filter occupation dataset to promising occupations
+-   `Promising-occupations-methods.Rmd`: Rmarkdown document summarizing methods for initial cleaning and filtering of occupation dataset to identify promising occupations.
