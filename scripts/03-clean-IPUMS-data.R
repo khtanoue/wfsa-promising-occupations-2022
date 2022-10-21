@@ -81,12 +81,16 @@ pums2020 <- data %>%
 
 ##### Get top occupation lists #####
 # top jobs:  full-time, year-round employed adults ages 18-64
+
+
 topjobs <- pums2020 %>% 
   filter(WORKINGAGE == 1 & FTEMP == 1) %>% 
   as_survey_design(ids = 1, weights = PERWT) %>% 
   group_by(OCCSOC) %>% 
-  summarize(EMPCNT = survey_total(),
-            MN_INC = survey_mean(INCTOT)) %>% 
+  summarise(EMPCNT = survey_total(),
+            MN_INC = survey_mean(INCTOT),
+            #MED_INC = survey_median(INCTOT, vartype =c("ci"))
+            ) %>% 
   arrange(desc(EMPCNT)) %>% 
   left_join(soccodes18, by = c("OCCSOC" = "SOCCODE18")) %>% 
   slice(1:50)
