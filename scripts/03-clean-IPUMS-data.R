@@ -41,10 +41,24 @@ occ_compare<- soccodes18 %>%
 # Other Drafters (17301X) = 173012 (Electrical and Electronics Drafters)
 # Other Engineering Techs (17302X) = 173022, 173026 (Civil engineering, Industrial engineering)
 # Other teachers and instructors (2530XX) = 253021 (Self-enrichment teachers)
-# Other media and comms workers (2740XX) = Audio and Video Technicians (274011)
-# Occupational therapy assistants and aides (312010) = Occupational Therapy Assistants (312011)
-# Physical Therapist Assistants and Aides (312020) = Physical Therapy Assistants (312021)
-
+# Other media and comms workers (2740XX) = 274011 (Audio and Video Technicians)
+# Occupational therapy assistants and aides (312010) = 312011 (Occupational Therapy Assistants
+# Physical therapy assistants and aides (312020) = 312021 (Physical Therapy Assistants)
+# Police officers (333050) = 333050 (Police & sheriffs patrol officers)
+# Sales reps, wholesale & manufacturing (414010) = 414011 (Sales reps, wholesale & manufacturing except tech/sci) 
+# Real estate brokers & sales agents (419020) = 419022 (Real estate sales agents)
+# Other info and records clerks (434YYY) = 434199 (Information and Record Clerks, All Other)
+# Other office/admin support workers (439XXX) = 439199 (Office/Admin support workers, All other)
+# Cement masons, concrete finishers, terrazo workers (472050) = 472051 (Cement masons & concrete finishers)
+# Construction equipment operators (472070) = 472073 (Operating Engineers and Other Construction Equipment Operators)
+# Drywall Installers, Ceiling Tile Installers, and Tapers (472080) = 472081 (Drywall & Ceiling Tile Installers)
+# Underground mining machine operators (475040) = 475041 (Continuous mining machine operators)
+# Radio and Telecommunications Equipment Installers and Repairers (492010) = 492022 (Radio and Telecommunications Equipment Installers & Repairers except line installers)
+# Control valve installers and repairers (499010) = 499012 (Control valve installers and repairers except mechanical door)
+# Other installation/maintenance/repair workers (4990XX) = Installation, Maintenance, and Repair Workers, All Other (499099)
+# Welding, soldering, brazing workers (514120) = Welders, cutters, solderers, brazers (514121)
+# Misc production workers (5191XX) = 519141 (semiconductor processing techs)
+# computer numerically controlled tool operators and programmers (519160) = 519161 (computer numerically controlled tool operators)
 
 
 
