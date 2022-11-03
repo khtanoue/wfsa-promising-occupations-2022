@@ -371,6 +371,9 @@ toplbsingmomycjobs<- ftpums2020 %>%
 # Note-- will be warnings generated; this is due to small numbers of observations for some occupations
 
 ##### Educational attainment for FT working women #####
+ftpums2020 <- pums2020 %>% 
+  filter(WORKINGAGE == 1 & FTEMP == 1) 
+
 edatttab <- ftpums2020 %>% 
   to_survey(type = "person", 
             class = "srvyr", 
@@ -566,15 +569,45 @@ promoccFTtab <- ftpums2020 %>%
 
 # Table of top occupations for women with gender breakdowns and median earnings (workers, men, women)
 
+### merge together pfemfttab, fmedinctopjobs, mmedinctopjobs
 
 # Merged table of top occupations for mothers, mothers of young children, & single mothers of young children with counts, median earnings
 
+alltopjobs <- topjobs %>% 
+  bind_rows(topfemjobs, 
+            topmomjobs, 
+            topmomycjobs,
+            topsingmomjobs,
+            topsingmomycjobs,
+            toplbjobs,
+            toplbfemjobs,
+            toplbmomjobs,
+            toplbmomycjobs,
+            toplbsingmomjobs,
+            toplbsingmomycjobs, .id = "category") %>% 
+  mutate(category = recode(category, "1" = "all",
+                     "2" = "female", 
+                     "3" = "mom", 
+                     "4" = "mom young children",
+                     "5" = "single mom",
+                     "6" = "single mom young children",
+                     "7" = "all less bach",
+                     "8" = "female less bach",
+                     "9" = "mom less bach",
+                     "10" = "mom young children lb",
+                     "11" = "single mom lb",
+                     "12" = "single mom young children lb")) %>% 
+  write_csv("clean-data/top_women_jobs.csv")
 
+# Educational Attainment table
+#### write ed att table
+edatttab %>% write_csv("clean-data/ed_attainment_women.csv")
 
 # Table with FT/PT work split for top occupation for women/mothers without a bachelor's degree
+### merge ftpttab and ftptfemtab
 
 
 
 # Promising occupation table with % with bachelors degree or higher, employment counts by gender, and median earnings added
-
+### merge together promocctab, promoccfttab
 
