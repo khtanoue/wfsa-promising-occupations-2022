@@ -570,6 +570,16 @@ promoccFTtab <- ftpums2020 %>%
 # Table of top occupations for women with gender breakdowns and median earnings (workers, men, women)
 
 ### merge together pfemfttab, fmedinctopjobs, mmedinctopjobs
+fmedinctopjobstab<- fmedinctopjobstab %>% 
+  rename_with(~paste0(., "_fem"), -c("SOCP", "OCC_TITLE"))
+
+mmedinctopjobstab<- mmedinctopjobstab %>% 
+  rename_with(~paste0(., "_ml"), -c("SOCP", "OCC_TITLE"))
+
+pfem_medinc_jobs<- pfemfttab %>% 
+  left_join(fmedinctopjobstab, by = c("SOCP", "OCC_TITLE")) %>% 
+  left_join(mmedinctopjobstab, by = c("SOCP", "OCC_TITLE")) %>% 
+  write_csv("clean-data/sex_medinc_top_jobs.csv")
 
 # Merged table of top occupations for mothers, mothers of young children, & single mothers of young children with counts, median earnings
 
