@@ -617,7 +617,21 @@ edatttab %>% write_csv("clean-data/ed_attainment_women.csv")
 ### merge ftpttab and ftptfemtab
 
 
+ftptfemtab<- ftptfemtab %>% 
+  rename_with(~paste0(., "_fem"), -c("SOCP", "OCC_TITLE"))
+
+ftptsplittab<-ftpttab %>% 
+  left_join(ftptfemtab, by = c("SOCP", "OCC_TITLE")) %>% 
+  write_csv("clean-data/ftptsplit_top_jobs.csv")
+  
 
 # Promising occupation table with % with bachelors degree or higher, employment counts by gender, and median earnings added
 ### merge together promocctab, promoccfttab
 
+
+promoccFTtab<- promoccFTtab %>% 
+  rename_with(~paste0(., "_ft"), -c("SOCP", "OCC_TITLE"))
+
+promocc_table<- promocctab %>% 
+  left_join(promoccFTtab, by = c("SOCP", "OCC_TITLE")) %>% 
+  write_csv("clean-data/promising_occupations_tab.csv")
