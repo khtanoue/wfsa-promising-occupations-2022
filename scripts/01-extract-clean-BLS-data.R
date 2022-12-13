@@ -14,7 +14,7 @@ library(forcats)
 BLS_files<-list.files("raw-data/bls/")
 
 # specify df names
-dfnames<-c("azproj", "azoews", "typed")
+dfnames<-c("azproj", "azoews", "azprojcty", "typed")
 
 # read in CSVs
 for (i in 1:length(BLS_files)) {
@@ -49,6 +49,12 @@ azproj_clean <- azproj %>%
 #str(azproj_clean)
 
 
+azproj_county<- azprojcty %>% 
+  rename(state = "Area Name",
+         OCC_CODE = "SOC Code2",
+         OCC_TITLEAZ = "Occupation Title") %>% 
+  mutate(avg_annualopenings = total_openings/10)
+
 ## BLS general education requirements for entry level occupations
 typed_clean <- typed %>% 
   rename(OCC_CODE = "2021 National Employment Matrix code",
@@ -60,7 +66,7 @@ typed_clean <- typed %>%
 
 str(typed_clean)
 
-#### Merge datasets into master ####
+#### Merge datasets into one for state and one for counties ####
 
 bls_dfs <- list(azoews_clean, azproj_clean, typed_clean)
 az_occdata_may21 <- bls_dfs %>% 
@@ -68,6 +74,9 @@ az_occdata_may21 <- bls_dfs %>%
   select(-state, -NAICS, -NAICS_TITLE, -I_GROUP,
          -OWN_CODE, -OCC_TITLEAZ,-PCT_TOTAL, -PCT_RPT, -O_GROUP)
 
+
+
 #### Export clean dataset #####
 write_csv(az_occdata_may21, "clean-data/az_occdata_may21.csv")
+write_csv(azproj_county, "clean-data/azcty_proj_sept21.csv")
 
