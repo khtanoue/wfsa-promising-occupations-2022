@@ -71,7 +71,7 @@ occ_compare<- soccodes1012 %>%
 # # Radio and Telecommunications Equipment Installers and Repairers (492020) = 492022 (Radio and Telecommunications Equipment Installers & Repairers except line installers)
 # # Control valve installers and repairers (499010) = 499012 (Control valve installers and repairers except mechanical door)
 # # Welding, soldering, brazing workers (514120) = 514121 (Welders, cutters, solderers, brazers)
-# # Computer numerically controlled tool operators and programmers (519160) = 519199 (other production workers)
+# # Computer numerically controlled tool operators and programmers (519161) = 519199 (other production workers)
 # # Supervisors of transportation and material moving workers (531000) = 531047 (first line supervisors of transportation and material moving workers)
 # # Driver/Sales Workers and Truck Drivers (533030) = 533032 (Heavy and Tractor-Trailer Truck Drivers)
 # # Bus Drivers (533020) = 533052 (Bus Drivers, Transit and Intercity)
@@ -79,14 +79,14 @@ occ_compare<- soccodes1012 %>%
 #####
 
 missingAZpromocc21 <- c('151231', '151232', '173011', '173012', '173022', '173023', '173026', '232093', '253021',
-                        '274011', '292021', '292032', '292034', '292035', '292055', '312011', '312021', '399031', '413091', '414012', '419022',
+                        '274011', '291292', '292032', '292034', '292035', '292055', '312011', '312021', '399031', '413091', '414012', '419022',
                         '435031', '472051', '472073', '472081', '472151', '472152', '475041',
-                        '492022', '499012', '514121', '519199',
+                        '492022', '499012', '514121', '519161',
                         '531047', '533032', '533052' )
 equivSOC10<- c('151150', '151150', '173010', '173010', '173020', '173020', '173020', '232090', '253000',
-               '274010', '291292', '292030', '292030', '292030', '292050', '312010', '312020', '399030', '413099', '414010', '419020',
+               '274010', '292021', '292030', '292030', '292030', '292050', '312010', '312020', '399030', '413099', '414010', '419020',
                '435030',  '472050', '472070', '472080', '472150', '472150', '475040',
-               '492020', '499010', '514120',  '519160',
+               '492020', '499010', '514120',  '519199',
                '531000', '533030', '533020')
 
 updateAZpromocc<- missingAZpromocc21 %>%
@@ -96,7 +96,15 @@ updateAZpromocc<- missingAZpromocc21 %>%
 
 azpromocc21<- azpromocc21 %>% 
   left_join(updateAZpromocc, by = "OCC_CODE") %>% 
-  mutate(SOCCODE10 = ifelse(is.na(SOCCODE10)==TRUE, OCC_CODE, SOCCODE10))
+  mutate(SOCCODE10 = ifelse(is.na(SOCCODE10)==TRUE, OCC_CODE, SOCCODE10)) 
+
+azpromocc21<- azpromocc21 %>% 
+  left_join(soccodes1012, by = c("SOCCODE10")) %>% 
+  select(-OCC_TITLE.y, -Census_OccCode_2010) %>% 
+  rename(OCC_TITLE= OCC_TITLE.x) %>% 
+  mutate(SOCCODE10_CENSUS = str_remove(SOCCODE10_CENSUS, "-"))
+
+
 
 azpromocc21data<- read_csv("clean-data/az_promising_occupations21.csv") %>% 
   mutate(OCC_CODE = str_remove(OCC_CODE, "-")) %>% 
@@ -618,7 +626,7 @@ topfemjobs_wide<-topfemjobs_wide %>%
   left_join(mommedinctopjobs, by = c("SOCP", "OCC_TITLE")) %>% 
   left_join(momycmedinctopjobs, by = c("SOCP", "OCC_TITLE")) %>% 
   left_join(smomycmedinctopjobs, by = c("SOCP", "OCC_TITLE")) %>%
-  write_csv("clean-data/top_women_jobs_wide_v2.csv")
+  write_csv("clean-data/top_women_jobs_wide_v2_2015.csv")
 
 
 momyc_childcare<- ftpums2015 %>% 
@@ -738,7 +746,7 @@ mmedinctopjobsLBtab<- ftpums2015 %>%
 
 #### Get employment, education, & % female stats for promising occupations ####
 promocctab <- pums2015 %>% 
-  filter(SOCP %in% azpromocc21$SOCCODE10) %>% 
+  filter(SOCP %in% azpromocc21$SOCCODE10_CENSUS) %>% 
   to_survey(type = "person", 
             class = "srvyr", 
             design = "rep_weights") %>%  
@@ -770,7 +778,7 @@ ftpums2015 <- pums2015 %>%
   filter(WORKINGAGE == 1 & FTEMP == 1) 
 
 promoccFTtab <- ftpums2015 %>% 
-  filter(SOCP %in% azpromocc21$SOCCODE10) %>% 
+  filter(SOCP %in% azpromocc21$SOCCODE10_CENSUS) %>% 
   to_survey(type = "person", 
             class = "srvyr", 
             design = "rep_weights") %>%  
@@ -805,7 +813,7 @@ ftpums2015 <- pums2015 %>%
   filter(WORKINGAGE == 1 & FTEMP == 1)
 
 fmedincpromocctab<- ftpums2015 %>% 
-  filter(SOCP %in% azpromocc21$SOCCODE10 & SEX == 2) %>% 
+  filter(SOCP %in% azpromocc21$SOCCODE10_CENSUS & SEX == 2) %>% 
   to_survey(type = "person", 
             class = "srvyr", 
             design = "rep_weights") %>% 
@@ -822,7 +830,7 @@ ftpums2015 <- pums2015 %>%
   filter(WORKINGAGE == 1 & FTEMP == 1) 
 
 mmedincpromocctab<- ftpums2015 %>% 
-  filter(SOCP %in% azpromocc21$SOCCODE10 & SEX == 1) %>% 
+  filter(SOCP %in% azpromocc21$SOCCODE10_CENSUS & SEX == 1) %>% 
   to_survey(type = "person", 
             class = "srvyr", 
             design = "rep_weights") %>% 
@@ -837,10 +845,10 @@ mmedincpromocctab<- ftpums2015 %>%
 
 
 # Check to make sure that there aren't missing OCC codes
-# '%!in%' <- Negate('%in%')
-# p1<-unique(azpromocc21$SOCCODE18)
-# p2<-unique(promocctab$SOCP)
-# p3<- p1[p1 %!in% p2 == TRUE]
+'%!in%' <- Negate('%in%')
+p1<-unique(azpromocc21$SOCCODE10_CENSUS)
+p2<-unique(promocctab$SOCP)
+p3<- p1[p1 %!in% p2 == TRUE]
 
 #### Outputs for 2015 data: #####
 
