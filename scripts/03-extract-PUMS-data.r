@@ -28,6 +28,7 @@ census_api<- read_lines("api-keys/census_api_kt.txt")
 # POVPIP income to poverty ratio recode; RAC1P recoded race; HISP recoded hispanic detail; 
 # SOCP SOC occupation recode; PWGTP1-80 replicate weights
 
+##### Get 2020 PUMS ####
 
 data<- get_pums(
   variables = c("SERIALNO",
@@ -87,3 +88,60 @@ data<- get_pums(
 
 write_csv(data, "raw-data/pums2020extract.csv")
 
+
+#### Get 2015 PUMS #####
+
+data<- get_pums(
+  variables = c("SERIALNO",
+                "FES",
+                "HHT2",
+                "HINCP",
+                "ADJINC",
+                "HUPAOC",
+                "NOC",
+                "PWGTP",
+                "SPORDER",
+                "PUMA",
+                "AGEP",
+                "CIT",
+                "NATIVITY",
+                "COW",
+                "FER",
+                "INTP",
+                "OIP",
+                "PAP",
+                "RETP",
+                "SEMP",
+                "SSIP",
+                "SSP",
+                "WAGP",
+                "PERNP",
+                "PINCP",
+                "MAR",
+                "SCH",
+                "SCHG",
+                "SCHL",
+                "SEX",
+                "ESR",
+                "WKHP",
+                "WKL",
+                "WKW",
+                "WKWN",
+                "JWAP",
+                "JWDP",
+                "MSP",
+                "OCCP",
+                "SOCP",
+                "PAOC",
+                "LANX",
+                "MIL",
+                "HICOV",
+                "POVPIP",
+                "RAC1P",
+                "HISP"
+  ),
+  state = "AZ",
+  year = 2015,
+  survey = "acs5",
+  rep_weights = "person",
+  key = census_api

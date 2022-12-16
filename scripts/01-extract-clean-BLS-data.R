@@ -50,7 +50,7 @@ azproj_clean <- azproj %>%
 
 
 azproj_county<- azprojcty %>% 
-  rename(state = "Area Name",
+  rename(area = "Area Name",
          OCC_CODE = "SOC Code2",
          OCC_TITLEAZ = "Occupation Title") %>% 
   mutate(avg_annualopenings = total_openings/10)
