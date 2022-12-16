@@ -1,4 +1,4 @@
-  ## Process PUMS extract
+  ## Process PUMS extract for 2020
   ## Kara Haberstock Tanoue
   ## 11.01.2022
   
@@ -13,7 +13,9 @@
   library(tidycensus)
   library(srvyr) #tidy style version of survey package
   
-  ##### Read in PUMS data ####
+  ###### 2020 PUMS Data ######
+  
+  ##### Read in 2020 PUMS data ####
   data<- read_csv("raw-data/pums2020extract.csv",
                   na = c("b", "bb", "bbb",
                          "bbbb", "bbbbb", "bbbbbb",
@@ -799,7 +801,7 @@
   #### check educational attainment for promising occupations-- remove jobs where more than (50%? 75%-- look to see) of workers have a bachelor's degree or more
   # decided not to filter jobs at this point since most jobs were under the 50% mark
   
-  #### Outputs: #####
+  #### Outputs for 2020 data: #####
   
   # Pop tab with all the denominators
   pums_poptab<- pums_poptab %>% 
@@ -953,4 +955,5 @@
   promocc_table_pumsbls<-promocc_table %>% 
     full_join(azpromocc21data, by = c("SOCP" = "SOCCODE18")) %>% 
     write_csv("clean-data/PUMSBLS_promising_occupations_tab.csv")
-  
+
+

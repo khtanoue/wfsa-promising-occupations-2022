@@ -33,7 +33,7 @@ census_api<- read_lines("api-keys/census_api_kt.txt")
 data<- get_pums(
   variables = c("SERIALNO",
                 "FES",
-                "HHT2",
+                "HHT2", # not in 2015 sample
                 "HINCP",
                 "ADJINC",
                 "HUPAOC",
@@ -65,7 +65,7 @@ data<- get_pums(
                 "WKHP",
                 "WKL",
                 "WKW",
-                "WKWN",
+                "WKWN", #not in 2015 sample
                 "JWAP",
                 "JWDP",
                 "MSP",
@@ -94,14 +94,14 @@ write_csv(data, "raw-data/pums2020extract.csv")
 data<- get_pums(
   variables = c("SERIALNO",
                 "FES",
-                "HHT2",
+                "FPARC",
                 "HINCP",
                 "ADJINC",
                 "HUPAOC",
                 "NOC",
                 "PWGTP",
                 "SPORDER",
-                "PUMA",
+                #"PUMA", #PUMAs not available for 2012-2015 samples
                 "AGEP",
                 "CIT",
                 "NATIVITY",
@@ -126,12 +126,14 @@ data<- get_pums(
                 "WKHP",
                 "WKL",
                 "WKW",
-                "WKWN",
+                #"WKWN", #not in 2015 sample
                 "JWAP",
                 "JWDP",
                 "MSP",
-                "OCCP",
-                "SOCP",
+                "OCCP10",
+                "OCCP12",
+                "SOCP10",
+                "SOCP12",
                 "PAOC",
                 "LANX",
                 "MIL",
@@ -144,4 +146,6 @@ data<- get_pums(
   year = 2015,
   survey = "acs5",
   rep_weights = "person",
-  key = census_api
+  key = census_api)
+
+write_csv(data, "raw-data/pums2015extract.csv")
